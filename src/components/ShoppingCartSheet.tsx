@@ -1,6 +1,8 @@
 'use client'
 
-import { Minus, Plus, Trash2 } from 'lucide-react'
+
+import { Minus, Plus, Trash2, Image as ImageIcon  } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import {
   SheetContent,
@@ -9,6 +11,7 @@ import {
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
 import { useCart } from '@/contexts/CartContext'
+
 
 interface ShoppingCartSheetProps {
   onProceedToBooking?: () => void
@@ -35,14 +38,26 @@ export default function ShoppingCartSheet({ onProceedToBooking }: ShoppingCartSh
           <p className="text-sm">Ayo tambahkan bunga favorit Anda!</p>
         </div>
       ) : (
-        <div className="mt-6 space-y-4">
+        <div className="mt-2 space-y-4">
           {/* Cart Items */}
-          <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+          <div className="space-y-2 max-h-200 overflow-y-auto pr-2 custom-scrollbar">
             {cartItems.map((item) => (
-              <div key={item.id} className="flex gap-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+              <div key={item.id} className="flex gap-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200 ml-2 mr-2">
                 {/* Product Image */}
-                <div className="w-20 h-20 bg-gradient-to-br from-yellow-100 to-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <div className="text-4xl">🌹</div>
+                <div className="w-20 h-20 rounded-lg overflow-hidden bg-gradient-to-br from-yellow-100 to-green-100 flex-shrink-0 relative">
+                  {item.image ? (
+                    <Image
+                      src={`/uploads/${item.image}`}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-full text-3xl">
+                      🌸
+                    </div>
+                  )}
                 </div>
 
                 {/* Product Info */}
@@ -98,32 +113,30 @@ export default function ShoppingCartSheet({ onProceedToBooking }: ShoppingCartSh
           <Separator />
 
           {/* Totals */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Subtotal</span>
-              <span>Rp {subtotal.toLocaleString('id-ID')}</span>
+          <div className="mx-1 sticky bottom-0 bg-white pt-10 pb-6 ">
+            <div className="space-y-1 border-t pt-4 border-green-200">
+              <div className="flex justify-between text-lg font-bold text-green-800">
+                <span className="ml-2">Total</span>
+                <span className="mr-2">Rp {total.toLocaleString('id-ID')}</span>
+              </div>
             </div>
-            <div className="flex justify-between text-lg font-bold text-green-800">
-              <span>Total</span>
-              <span>Rp {total.toLocaleString('id-ID')}</span>
-            </div>
-          </div>
 
-          {/* Action Buttons */}
-          <div className="space-y-2 pt-4">
-            <Button
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold text-lg py-6"
-              onClick={onProceedToBooking}
-            >
-              Order Now
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full border-green-200 hover:bg-green-50 text-green-700"
-              onClick={clearCart}
-            >
-              Kosongkan Keranjang
-            </Button>
+            {/* Action Buttons */}
+            <div className="space-y-2 pt-4">
+              <Button
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold text-lg py-6"
+                onClick={onProceedToBooking}
+              >
+                Order Now
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full border-green-200 hover:bg-green-50 text-green-700 mb-1"
+                onClick={clearCart}
+              >
+                Kosongkan Keranjang
+              </Button>
+            </div>
           </div>
         </div>
       )}

@@ -4,7 +4,9 @@ import { db } from '@/lib/db'
 export async function GET() {
   try {
     // Total Products
-    const totalProducts = await db.product.count()
+    const totalProducts = await db.product.count({
+      where: { isDeleted: false }
+    })
 
     // Available Products (sum of all stock)
     const availableProducts = await db.product.aggregate({

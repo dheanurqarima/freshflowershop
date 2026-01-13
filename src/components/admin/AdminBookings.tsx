@@ -183,7 +183,7 @@ export default function AdminBookings() {
             placeholder="Cari berdasarkan nama, email, atau produk..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border-yellow-200 focus:border-yellow-400"
+            className="border-yellow-200 focus:border-yellow-400 text-gray-400"
           />
         </div>
       </div>
@@ -296,7 +296,7 @@ export default function AdminBookings() {
                                   <SelectTrigger className="w-32 cursor-pointer border-yellow-200 focus:border-yellow-400">
                                     <SelectValue />
                                   </SelectTrigger>
-                                  <SelectContent className="z-[9999]">
+                                  <SelectContent className="z-[9999] bg-white border-yellow-200">
                                     <SelectItem value="Booking">Booking</SelectItem>
                                     <SelectItem value="Confirmed">Confirmed</SelectItem>
                                     <SelectItem value="Done Order">Done Order</SelectItem>

@@ -71,22 +71,37 @@ export async function POST(
       )
     }
 
-    // Handle stock changes based on status
-    if (status === 'Canceled' && existingBooking.status !== 'Canceled') {
-      // Restore stock (only if product exists)
-      if (existingBooking.productId && existingBooking.product) {
-        await db.product.update({
-          where: { id: existingBooking.productId },
-          data: {
-            stock: { increment: existingBooking.quantity }
+    const prevStatus = existingBooking.status
+    const newStatus = status
+
+    // 1️⃣ AKTIF → CANCELED → TAMBAH STOK
+    if (
+      prevStatus !== 'Canceled' &&
+      newStatus === 'Canceled'
+    ) {
+      await db.product.update({
+        where: { id: existingBooking.productId },
+        data: {
+          stock: {
+            increment: existingBooking.quantity
           }
-        })
-      } else {
-        console.warn('Product missing for booking:', id)
-      }
-    } else if (status === 'Done Order' && existingBooking.status !== 'Done Order') {
-      // Stock already deducted when booking was created
-      // Just update the booking status
+        }
+      })
+    }
+
+    // 2️⃣ CANCELED → AKTIF → KURANGI STOK
+    if (
+      prevStatus === 'Canceled' &&
+      newStatus !== 'Canceled'
+    ) {
+      await db.product.update({
+        where: { id: existingBooking.productId },
+        data: {
+          stock: {
+            decrement: existingBooking.quantity
+          }
+        }
+      })
     }
 
     const booking = await db.booking.update({

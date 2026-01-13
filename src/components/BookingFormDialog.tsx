@@ -169,7 +169,7 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
                     placeholder="Masukkan nama lengkap Anda"
-                    className="border-yellow-200 focus:border-yellow-400"
+                    className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                   />
                 </div>
 
@@ -182,7 +182,7 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
                     placeholder="email@example.com"
-                    className="border-yellow-200 focus:border-yellow-400"
+                    className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                   />
                 </div>
 
@@ -195,7 +195,7 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
                     placeholder="081234567890"
-                    className="border-yellow-200 focus:border-yellow-400"
+                    className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                       onChange={(e) => setFormData({ ...formData, receiverName: e.target.value })}
                       required
                       placeholder="Nama penerima paket"
-                      className="border-yellow-200 focus:border-yellow-400"
+                      className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                     />
                   </div>
 
@@ -228,7 +228,7 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                       onChange={(e) => setFormData({ ...formData, receiverPhone: e.target.value })}
                       required
                       placeholder="081234567890"
-                      className="border-yellow-200 focus:border-yellow-400"
+                      className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                     />
                   </div>
 
@@ -240,7 +240,7 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                       onChange={(e) => setFormData({ ...formData, receiverAddress: e.target.value })}
                       required
                       placeholder="Jalan, No. Rumah, Kelurahan, Kecamatan, Kota, Kode Pos"
-                      className="border-yellow-200 focus:border-yellow-400"
+                      className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                     />
                   </div>
                 </div>

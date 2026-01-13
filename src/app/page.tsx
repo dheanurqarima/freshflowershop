@@ -45,7 +45,7 @@ export default function Home() {
   const [adminAuthenticated, setAdminAuthenticated] = useState(false)
   const [bookingOpen, setBookingOpen] = useState(false)
   const [adminTab, setAdminTab] = useState('dashboard')
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   const { cartCount } = useCart()
@@ -81,8 +81,25 @@ export default function Home() {
       }
 
       const response = await fetch(`/api/products?${params.toString()}`)
+
+      if (!response.ok) {
+        console.error('Fetch products failed:', response.status)
+        setProducts([])
+        return
+      }
+
       const data = await response.json()
-      setProducts(data)
+
+      // 🔒 VALIDASI WAJIB
+      if (Array.isArray(data)) {
+        setProducts(data)
+      } else if (Array.isArray(data.products)) {
+        setProducts(data.products)
+      } else {
+        console.error('Invalid products format:', data)
+        setProducts([])
+      }
+
     } catch (error) {
       console.error('Error fetching products:', error)
       setProducts([])
@@ -275,7 +292,7 @@ export default function Home() {
         </section>
 
         {/* Product Filters */}
-        <section className="container mx-auto px-4 py-6">
+        <section className="container mx-auto px-4 py-1">
           <div className="flex flex-wrap items-center justify-center gap-2 p-1 bg-white rounded-xl shadow-sm border border-yellow-200">
             {(['All', 'Bucket Fresh Flower', 'Fresh Flower', 'Bucket Fake Flower'] as CatalogType[]).map((catalog) => (
               <Button

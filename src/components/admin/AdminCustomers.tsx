@@ -31,6 +31,12 @@ interface Customer {
   }>
 }
 
+interface CustomerOrderGroup {
+  customer: Customer
+  orderDate: string
+  bookings: Customer['bookings']
+}
+
 export default function AdminCustomers() {
   const [customers, setCustomers] = useState<Customer[]>([])
   const [loading, setLoading] = useState(true)
@@ -97,11 +103,43 @@ export default function AdminCustomers() {
     window.open(whatsappUrl, '_blank')
   }
 
-  const filteredCustomers = customers.filter(customer =>
+  const groupedOrders: CustomerOrderGroup[] = []
+
+  customers.forEach((customer) => {
+    const mapByDate: Record<string, Customer['bookings']> = {}
+
+    customer.bookings.forEach((booking) => {
+      const dateKey = new Date(booking.orderDate).toISOString().split('T')[0]
+
+      if (!mapByDate[dateKey]) {
+        mapByDate[dateKey] = []
+      }
+
+      mapByDate[dateKey].push(booking)
+    })
+
+    Object.entries(mapByDate).forEach(([orderDate, bookings]) => {
+      groupedOrders.push({
+        customer,
+        orderDate,
+        bookings
+      })
+    })
+  })
+
+  groupedOrders.sort((a, b) => {
+  return (
+    new Date(b.orderDate).getTime() -
+    new Date(a.orderDate).getTime()
+  )
+})
+
+  const filteredOrders = groupedOrders.filter(({ customer }) =>
     customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     customer.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     customer.phone.includes(searchQuery)
   )
+
 
   if (loading) {
     return (
@@ -121,12 +159,12 @@ export default function AdminCustomers() {
             placeholder="Cari berdasarkan nama, email, atau nomor HP..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border-yellow-200 focus:border-yellow-400"
+            className="border-yellow-200 focus:border-yellow-400 text-gray-400"
           />
         </div>
       </div>
 
-      {filteredCustomers.length === 0 ? (
+      {filteredOrders.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center text-gray-500">
             Tidak ada pelanggan ditemukan
@@ -134,12 +172,15 @@ export default function AdminCustomers() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredCustomers.map((customer) => {
-            const totalCost = customer.bookings.reduce((sum, b) => sum + b.totalCost, 0)
-            const totalQuantity = customer.bookings.reduce((sum, b) => sum + b.quantity, 0)
+          {filteredOrders.map(({ customer, orderDate, bookings }) => {
+            const totalCost = bookings.reduce((sum, b) => sum + b.totalCost, 0)
+            const totalQuantity = bookings.reduce((sum, b) => sum + b.quantity, 0)
 
             return (
-              <Card key={customer.id} className="border-yellow-200 hover:shadow-md transition-shadow">
+              <Card
+              key={`${customer.id}-${orderDate}`}
+              className="border-yellow-200 hover:shadow-md transition-shadow"
+            >
                 <CardContent className="p-6">
                   {/* Customer Header */}
                   <div className="flex items-start justify-between mb-4">
@@ -147,13 +188,32 @@ export default function AdminCustomers() {
                       <h3 className="font-semibold text-green-800 text-lg mb-1">
                         {customer.name}
                       </h3>
-                      <p className="text-sm text-gray-600">{customer.email}</p>
-                      <p className="text-sm text-gray-600">{customer.phone}</p>
+
+                      <p className="text-sm text-gray-600">
+                        {customer.email}
+                      </p>
+
+                      <p className="text-sm text-gray-600">
+                        {customer.phone}
+                      </p>
+
+                      {/* 🆕 TANGGAL PEMESANAN */}
+                      <p className="text-xs text-gray-500 mt-1">
+                        Tanggal Pesan:{' '}
+                        {new Date(orderDate).toLocaleDateString('id-ID', {
+                          weekday: 'long',
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                        })}
+                      </p>
                     </div>
+
                     <Badge
-                      className={customer.deliveryType === 'pickup' 
-                        ? 'bg-yellow-100 text-yellow-800' 
-                        : 'bg-green-100 text-green-800'
+                      className={
+                        customer.deliveryType === 'pickup'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-green-100 text-green-800'
                       }
                     >
                       {customer.deliveryType === 'pickup' ? (
@@ -187,7 +247,7 @@ export default function AdminCustomers() {
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Total Pesanan</span>
                       <span className="font-medium text-green-800">
-                        {customer.bookings.length}
+                        {bookings.length}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
@@ -209,7 +269,7 @@ export default function AdminCustomers() {
                     <div className="border-t border-yellow-200 pt-3 mb-4">
                       <p className="text-xs text-gray-600 mb-2">Produk yang dipesan:</p>
                       <div className="space-y-1 max-h-32 overflow-y-auto">
-                        {customer.bookings.map((booking) => (
+                        {bookings.map((booking) => (
                           <div key={booking.id} className="text-xs flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <span className="font-medium">{booking.product.name}</span>

@@ -118,35 +118,27 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const existingProduct = await db.product.findUnique({
+    const product = await db.product.findUnique({
       where: { id: params.id }
     })
 
-    if (!existingProduct) {
+    if (!product) {
       return NextResponse.json(
         { error: 'Product not found' },
         { status: 404 }
       )
     }
 
-    // Delete image file if exists
-    if (existingProduct.image) {
-      try {
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads')
-        const filePath = path.join(uploadDir, existingProduct.image)
-        await unlink(filePath)
-      } catch (error) {
-        console.error('Error deleting image:', error)
-      }
-    }
-
-    await db.product.delete({
-      where: { id: params.id }
+    await db.product.update({
+      where: { id: params.id },
+      data: { isDeleted: true }
     })
 
-    return NextResponse.json({ message: 'Product deleted successfully' })
+    return NextResponse.json({
+      message: 'Product soft deleted successfully'
+    })
   } catch (error) {
-    console.error('Error deleting product:', error)
+    console.error('SOFT DELETE ERROR:', error)
     return NextResponse.json(
       { error: 'Failed to delete product' },
       { status: 500 }

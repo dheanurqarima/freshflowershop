@@ -42,8 +42,10 @@ export default function ProductCard({
       id,
       name,
       price,
+      quantity: 1,
       catalogType,
-      stock
+      stock,
+      image,
     })
   }
 
@@ -74,12 +76,12 @@ export default function ProductCard({
       </div>
 
       <CardContent className="p-4">
-        <Badge className="mb-2 bg-yellow-500 hover:bg-yellow-600 text-xs">
-          {catalogType}
-        </Badge>
         <h3 className="font-semibold text-green-800 mb-1 line-clamp-1">
           {name}
         </h3>
+        <Badge className="mb-2 bg-yellow-200 hover:bg-yellow-300 text-xs">
+          {catalogType}
+        </Badge>
         <p className="text-sm text-gray-600 mb-2 line-clamp-2">
           {detail}
         </p>

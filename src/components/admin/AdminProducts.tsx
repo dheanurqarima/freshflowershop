@@ -198,7 +198,7 @@ export default function AdminProducts() {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   placeholder="Contoh: Rose Bouquet"
-                  className="border-yellow-200 focus:border-yellow-400"
+                  className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                 />
               </div>
 
@@ -212,7 +212,7 @@ export default function AdminProducts() {
                   <SelectTrigger className="border-yellow-200">
                     <SelectValue placeholder="Pilih tipe katalog" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border-yellow-200">
                     <SelectItem value="Bucket Fresh Flower">Bucket Fresh Flower</SelectItem>
                     <SelectItem value="Fresh Flower">Fresh Flower</SelectItem>
                     <SelectItem value="Bucket Fake Flower">Bucket Fake Flower</SelectItem>
@@ -227,7 +227,7 @@ export default function AdminProducts() {
                   value={formData.detail}
                   onChange={(e) => setFormData({ ...formData, detail: e.target.value })}
                   placeholder="Deskripsi produk..."
-                  className="border-yellow-200 focus:border-yellow-400 min-h-[100px]"
+                  className="border-yellow-200 focus:border-yellow-400 min-h-[100px] text-black placeholder:text-gray-400"
                 />
               </div>
 
@@ -242,7 +242,7 @@ export default function AdminProducts() {
                     required
                     min="0"
                     placeholder="150000"
-                    className="border-yellow-200 focus:border-yellow-400"
+                    className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                   />
                 </div>
 
@@ -256,7 +256,7 @@ export default function AdminProducts() {
                     required
                     min="0"
                     placeholder="10"
-                    className="border-yellow-200 focus:border-yellow-400"
+                    className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -270,7 +270,7 @@ export default function AdminProducts() {
                   <SelectTrigger className="border-yellow-200">
                     <SelectValue placeholder="Pilih status" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border-yellow-200">
                     <SelectItem value="Available">Available</SelectItem>
                     <SelectItem value="Booked">Booked</SelectItem>
                   </SelectContent>

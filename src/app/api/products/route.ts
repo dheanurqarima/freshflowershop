@@ -24,7 +24,10 @@ export async function GET(request: NextRequest) {
     }
 
     const products = await db.product.findMany({
-      where,
+      where: {
+        ...where,
+        isDeleted: false
+      },
       orderBy: { createdAt: 'desc' }
     })
 
