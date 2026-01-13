@@ -6,15 +6,15 @@ import { CartProvider } from "@/contexts/CartContext";
 
 const geist = localFont({
   src: [
-    { path: '../public/fonts/Geist-Regular.woff2', weight: '400' },
-    { path: '../public/fonts/Geist-Medium.woff2', weight: '500' },
-    { path: '../public/fonts/Geist-Bold.woff2', weight: '700' },
+    { path: '../../public/fonts/Geist-Regular.woff2', weight: '400' },
+    { path: '../../public/fonts/Geist-Medium.woff2', weight: '500' },
+    { path: '../../public/fonts/Geist-Bold.woff2', weight: '700' },
   ],
   variable: '--font-geist',
 })
 
 const geistMono = localFont({
-  src: '../public/fonts/GeistMono-Regular.woff2',
+  src: '../../public/fonts/GeistMono-Regular.woff2',
   variable: '--font-geist-mono',
 })
 
