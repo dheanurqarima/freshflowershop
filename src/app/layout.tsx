@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from "@/contexts/CartContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geist = localFont({
+  src: [
+    { path: '../public/fonts/Geist-Regular.woff2', weight: '400' },
+    { path: '../public/fonts/Geist-Medium.woff2', weight: '500' },
+    { path: '../public/fonts/Geist-Bold.woff2', weight: '700' },
+  ],
+  variable: '--font-geist',
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistMono = localFont({
+  src: '../public/fonts/GeistMono-Regular.woff2',
+  variable: '--font-geist-mono',
+})
 
 export const metadata: Metadata = {
   title: "Fresh Flower Shop - Toko Bunga Terbaik",
@@ -29,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geist.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <CartProvider>
           {children}
