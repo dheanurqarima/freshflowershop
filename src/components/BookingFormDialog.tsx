@@ -112,13 +112,13 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name} x {item.quantity}</span>
-                    <span>Rp {(item.price * item.quantity).toLocaleString("id-ID") ?? "0"}</span>
+                    <span>Rp {(item.price * item.quantity).toLocaleString('id-ID')}</span>
                   </div>
                 ))}
               </div>
               <div className="flex justify-between font-bold text-green-800 mt-3 pt-3 border-t border-yellow-300">
                 <span>Total</span>
-                <span>Rp {cartTotal.toLocaleString("id-ID") ?? "0"}</span>
+                <span>Rp {cartTotal.toLocaleString('id-ID')}</span>
               </div>
             </div>
 

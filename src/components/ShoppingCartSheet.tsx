@@ -69,7 +69,7 @@ export default function ShoppingCartSheet({ onProceedToBooking }: ShoppingCartSh
                     <p className="text-xs text-gray-600 mb-1">{item.catalogType}</p>
                   )}
                   <p className="text-sm text-gray-600 mb-2">
-                    Rp {item.price.toLocaleString("id-ID") ?? "0"}
+                    Rp {item.price.toLocaleString('id-ID')}
                   </p>
 
                   {/* Quantity Controls */}
@@ -117,7 +117,7 @@ export default function ShoppingCartSheet({ onProceedToBooking }: ShoppingCartSh
             <div className="space-y-1 border-t pt-4 border-green-200">
               <div className="flex justify-between text-lg font-bold text-green-800">
                 <span className="ml-2">Total</span>
-                <span className="mr-2">Rp {total.toLocaleString("id-ID") ?? "0"}</span>
+                <span className="mr-2">Rp {total.toLocaleString('id-ID')}</span>
               </div>
             </div>
 

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import { supabase } from '@/lib/supabase'
 
 // GET - Fetch all products or filter by catalog type
 export async function GET(request: NextRequest) {
@@ -61,25 +60,29 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    let imageName = ''
-    
-    // Handle image upload
+    let imageUrl = ''
+
     if (imageFile && imageFile.size > 0) {
-      const bytes = await imageFile.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-      
-      // Create uploads directory if it doesn't exist
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads')
-      await mkdir(uploadDir, { recursive: true })
-      
-      // Generate unique filename
-      const timestamp = Date.now()
-      const ext = path.extname(imageFile.name)
-      imageName = `${timestamp}${ext}`
-      
-      // Save file
-      const filePath = path.join(uploadDir, imageName)
-      await writeFile(filePath, buffer)
+      const buffer = Buffer.from(await imageFile.arrayBuffer())
+      const ext = imageFile.name.split('.').pop()
+      const fileName = `products/${Date.now()}.${ext}`
+
+      const { error } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, buffer, {
+          contentType: imageFile.type,
+          upsert: false
+        })
+
+      if (error) {
+        console.error(error)
+        return NextResponse.json(
+          { error: 'Image upload failed' },
+          { status: 500 }
+        )
+      }
+
+      imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${fileName}`
     }
 
     const product = await prisma.product.create({
@@ -90,7 +93,7 @@ export async function POST(request: NextRequest) {
         price,
         stock,
         status,
-        image: imageName
+        image: imageUrl
       }
     })
 

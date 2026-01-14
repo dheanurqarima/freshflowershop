@@ -87,7 +87,7 @@ export default function ProductCard({
         </p>
         <div className="flex items-center justify-between">
           <p className="text-lg font-bold text-green-700">
-            Rp {price.toLocaleString("id-ID") ?? "0"}
+            Rp {price.toLocaleString('id-ID')}
           </p>
           <Badge
             variant={stock > 0 ? "default" : "destructive"}

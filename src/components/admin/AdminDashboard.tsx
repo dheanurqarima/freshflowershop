@@ -118,7 +118,7 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold text-green-800">
-                Rp {metrics.monthlyRevenue.toLocaleString("id-ID") ?? "0"}
+                Rp {(metrics.monthlyRevenue ?? 0).toLocaleString("id-ID")}
               </div>
               <DollarSign className="h-8 w-8 text-purple-500" />
             </div>
@@ -168,10 +168,12 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <div className="text-gray-600">
-                      <span>{booking.quantity} x Rp {booking.product.price.toLocaleString('id-ID')}</span>
+                      <span>
+                        {booking.quantity} x Rp {(booking.product?.price ?? 0).toLocaleString('id-ID')}
+                      </span>
                     </div>
                     <div className="font-semibold text-green-700">
-                      Rp {booking.totalCost.toLocaleString('id-ID')}
+                      Rp {(booking.totalCost ?? 0).toLocaleString('id-ID')}
                     </div>
                   </div>
                   <div className="text-xs text-gray-500 mt-2">

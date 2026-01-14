@@ -1,22 +1,22 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
     // Total Products
-    const totalProducts = await db.product.count({
+    const totalProducts = await prisma.product.count({
       where: { isDeleted: false }
     })
 
     // Available Products (sum of all stock)
-    const availableProducts = await db.product.aggregate({
+    const availableProducts = await prisma.product.aggregate({
       _sum: {
         stock: true
       }
     })
 
     // Products Sold (from bookings with 'Done Order' status)
-    const soldProductsResult = await db.booking.aggregate({
+    const soldProductsResult = await prisma.booking.aggregate({
       where: {
         status: 'Done Order'
       },
@@ -32,7 +32,7 @@ export async function GET() {
     const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
     const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
 
-    const monthlyRevenueResult = await db.booking.aggregate({
+    const monthlyRevenueResult = await prisma.booking.aggregate({
       where: {
         status: 'Done Order',
         createdAt: {
@@ -48,7 +48,7 @@ export async function GET() {
     const monthlyRevenue = monthlyRevenueResult._sum.totalCost || 0
 
     // Recent Bookings (last 10)
-    const recentBookings = await db.booking.findMany({
+    const recentBookings = await prisma.booking.findMany({
       include: {
         product: true,
         guest: true
