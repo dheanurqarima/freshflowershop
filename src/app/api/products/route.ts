@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const products = await db.product.findMany({
+    const products = await prisma.product.findMany({
       where: {
         ...where,
         isDeleted: false
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     const status = formData.get('status') as string || 'Available'
     const imageFile = formData.get('image') as File
 
-    if (!name || !catalogType || !price || !stock) {
+    if (!name || !catalogType || isNaN(price) || isNaN(stock)) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       await writeFile(filePath, buffer)
     }
 
-    const product = await db.product.create({
+    const product = await prisma.product.create({
       data: {
         name,
         catalogType,

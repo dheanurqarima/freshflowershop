@@ -113,10 +113,10 @@ export default function AdminBookings() {
     message += `🌸 *Detail Produk*\n`
     message += `• Nama: ${product.name}\n`
     message += `• Tipe: ${product.catalogType}\n`
-    message += `• Harga: Rp ${product.price.toLocaleString('id-ID')}\n`
+    message += `• Harga: Rp ${product.price.toLocaleString("id-ID") ?? "0"}\n`
     message += `• Jumlah: ${booking.quantity}\n\n`
 
-    message += `💰 *Total Biaya: Rp ${booking.totalCost.toLocaleString('id-ID')}*\n\n`
+    message += `💰 *Total Biaya: Rp ${booking.totalCost.toLocaleString("id-ID") ?? "0"}*\n\n`
 
     const statusEmoji: Record<string, string> = {
       'Booking': '📝',
@@ -277,7 +277,7 @@ export default function AdminBookings() {
                               </div>
                             </td>
                             <td className="py-3 px-3">
-                              Rp {booking.product.price.toLocaleString('id-ID')}
+                              Rp {booking.product.price.toLocaleString("id-ID") ?? "0"}
                             </td>
                             <td className="py-3 px-3">
                               {booking.quantity}
@@ -328,7 +328,7 @@ export default function AdminBookings() {
                       {bookings.length} produk
                     </div>
                     <div className="text-xl font-bold text-green-800">
-                      Total: Rp {totalCost.toLocaleString('id-ID')}
+                      Total: Rp {totalCost.toLocaleString("id-ID") ?? "0"}
                     </div>
                   </div>
                 </CardContent>

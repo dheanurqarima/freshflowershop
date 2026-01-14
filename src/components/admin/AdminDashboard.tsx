@@ -118,7 +118,7 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold text-green-800">
-                Rp {metrics.monthlyRevenue.toLocaleString('id-ID')}
+                Rp {metrics.monthlyRevenue.toLocaleString("id-ID") ?? "0"}
               </div>
               <DollarSign className="h-8 w-8 text-purple-500" />
             </div>
