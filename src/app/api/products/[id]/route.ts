@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 import { writeFile, mkdir } from 'fs/promises'
 import { unlink } from 'fs/promises'
 import path from 'path'
@@ -10,7 +10,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const product = await db.product.findUnique({
+    const product = await prisma.product.findUnique({
       where: { id: params.id }
     })
 
@@ -47,7 +47,7 @@ export async function PUT(
     const status = formData.get('status') as string
     const imageFile = formData.get('image') as File
 
-    const existingProduct = await db.product.findUnique({
+    const existingProduct = await prisma.product.findUnique({
       where: { id: params.id }
     })
 
@@ -89,7 +89,7 @@ export async function PUT(
       }
     }
 
-    const product = await db.product.update({
+    const product = await prisma.product.update({
       where: { id: params.id },
       data: {
         name,
@@ -118,7 +118,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const product = await db.product.findUnique({
+    const product = await prisma.product.findUnique({
       where: { id: params.id }
     })
 
@@ -129,7 +129,7 @@ export async function DELETE(
       )
     }
 
-    await db.product.update({
+    await prisma.product.update({
       where: { id: params.id },
       data: { isDeleted: true }
     })

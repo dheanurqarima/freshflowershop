@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 
 // POST - Handle both POST and PATCH (workaround)
 export async function POST(
@@ -59,7 +59,7 @@ export async function POST(
       return NextResponse.json({ error: `Invalid status. Valid values: ${validStatuses.join(', ')}` }, { status: 400 })
     }
 
-    const existingBooking = await db.booking.findUnique({
+    const existingBooking = await prisma.booking.findUnique({
       where: { id },
       include: { product: true }
     })
@@ -79,7 +79,7 @@ export async function POST(
       prevStatus !== 'Canceled' &&
       newStatus === 'Canceled'
     ) {
-      await db.product.update({
+      await prisma.product.update({
         where: { id: existingBooking.productId },
         data: {
           stock: {
@@ -94,7 +94,7 @@ export async function POST(
       prevStatus === 'Canceled' &&
       newStatus !== 'Canceled'
     ) {
-      await db.product.update({
+      await prisma.product.update({
         where: { id: existingBooking.productId },
         data: {
           stock: {
@@ -104,7 +104,7 @@ export async function POST(
       })
     }
 
-    const booking = await db.booking.update({
+    const booking = await prisma.booking.update({
       where: { id },
       data: { status },
       include: {

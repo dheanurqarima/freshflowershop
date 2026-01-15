@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "windows"]
@@ -15,44 +9,44 @@ datasource db {
 }
 
 model Product {
-  id           String   @id @default(cuid())
-  name         String
-  catalogType  String // "Bucket Fresh Flower" | "Fresh Flower" | "Bucket Fake Flower"
-  detail       String?
-  price        Float
-  stock        Int
-  status       String @default("Available") // "Available" | "Booked"
-  image        String   // filename of uploaded image
-  isDeleted    Boolean @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  bookings     Booking[]
+  id          String    @id @default(cuid())
+  name        String
+  catalogType String
+  detail      String?
+  price       Float
+  stock       Int
+  status      String    @default("Available")
+  image       String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isDeleted   Boolean   @default(false)
+  bookings    Booking[]
 }
 
 model Guest {
-  id               String   @id @default(cuid())
-  name             String
-  email            String
-  phone            String   // WhatsApp number
-  deliveryType     String   // "pickup" | "delivery"
-  receiverName     String?
-  receiverPhone    String?
-  receiverAddress  String?
-  createdAt        DateTime @default(now())
-  bookings         Booking[]
+  id              String    @id @default(cuid())
+  name            String
+  email           String
+  phone           String
+  deliveryType    String
+  receiverName    String?
+  receiverPhone   String?
+  receiverAddress String?
+  createdAt       DateTime  @default(now())
+  bookings        Booking[]
 }
 
 model Booking {
-  id              String   @id @default(cuid())
-  productId       String
-  guestId         String
-  quantity        Int
-  orderDate       DateTime @default(now())
-  pickupDate      DateTime
-  totalCost       Float
-  status          String @default("Booking") // "Booking" | "Confirmed" | "Done Order" | "Canceled"
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  guest           Guest   @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  productId  String
+  guestId    String
+  quantity   Int
+  orderDate  DateTime @default(now())
+  pickupDate DateTime
+  totalCost  Float
+  status     String   @default("Booking")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  guest      Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 
 // GET - Fetch all bookings with related data
 export async function GET(request: NextRequest) {
   try {
-    const bookings = await db.booking.findMany({
+    const bookings = await prisma.booking.findMany({
       include: {
         product: true,
         guest: true
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get product price
-    const product = await db.product.findUnique({
+    const product = await prisma.product.findUnique({
       where: { id: productId }
     })
 
@@ -56,12 +56,12 @@ export async function POST(request: NextRequest) {
     const totalCost = product.price * quantity
 
     // Create or find guest
-    let guest = await db.guest.findFirst({
+    let guest = await prisma.guest.findFirst({
       where: { email: guestData.email }
     })
 
     if (!guest) {
-      guest = await db.guest.create({
+      guest = await prisma.guest.create({
         data: {
           name: guestData.name,
           email: guestData.email,
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create booking
-    const booking = await db.booking.create({
+    const booking = await prisma.booking.create({
       data: {
         productId,
         guestId: guest.id,
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Update product stock
-    await db.product.update({
+    await prisma.product.update({
       where: { id: productId },
       data: {
         stock: { decrement: quantity }
