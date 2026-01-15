@@ -59,8 +59,10 @@ export default function AdminCustomers() {
   }
 
   const sendWhatsApp = (customer: Customer) => {
-    const totalCost = customer.bookings.reduce((sum, b) => sum + b.totalCost, 0)
-
+    const totalCost = customer.bookings.reduce(
+      (sum, b) => sum + (b.totalCost ?? 0),
+      0
+    )
     let message = `🌸 *FRESH FLOWER SHOP - RINCIAN PESANAN ANDA*\n\n`
     
     message += `👤 *Informasi Pemesan*\n`
@@ -87,12 +89,12 @@ export default function AdminCustomers() {
       }
       message += `\n${index + 1}. ${booking.product.name}\n`
       message += `   • Tipe: ${booking.product.catalogType}\n`
-      message += `   • Harga: Rp ${booking.product.price.toLocaleString('id-ID')}\n`
+      message += `   • Harga: Rp ${(booking.product?.price ?? 0).toLocaleString('id-ID')}\n`
       message += `   • Jumlah: ${booking.quantity}\n`
       message += `   • Status: ${statusEmoji[booking.status]} ${booking.status}\n`
     })
 
-    message += `\n💰 *Total Biaya: Rp ${totalCost.toLocaleString('id-ID')}*\n\n`
+    message += `\n💰 *Total Biaya: Rp ${(totalCost ?? 0).toLocaleString('id-ID')}*\n\n`
 
     message += `Terima kasih telah berbelanja di Fresh Flower Shop! 🌸\n`
     message += `Ada pertanyaan? Jangan ragu untuk menghubungi kami.`
@@ -281,7 +283,7 @@ export default function AdminCustomers() {
                               </Badge>
                             </div>
                             <span className="text-gray-600">
-                              {booking.quantity} x Rp {booking.product.price.toLocaleString('id-ID')}
+                              {booking.quantity} x Rp {(booking.product?.price ?? 0).toLocaleString('id-ID')}
                             </span>
                           </div>
                         ))}

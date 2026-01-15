@@ -22,6 +22,10 @@ export default function AdminDashboard() {
     setLoading(true)
     try {
       const response = await fetch('/api/admin/dashboard')
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch dashboard metrics')
+      }
       const data = await response.json()
       setMetrics(data)
     } catch (error) {
@@ -118,7 +122,7 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold text-green-800">
-                Rp {(metrics.monthlyRevenue ?? 0).toLocaleString("id-ID")}
+                Rp {(metrics?.monthlyRevenue ?? 0).toLocaleString("id-ID")}
               </div>
               <DollarSign className="h-8 w-8 text-purple-500" />
             </div>
@@ -148,7 +152,9 @@ export default function AdminDashboard() {
                 Belum ada pemesanan
               </p>
             ) : (
-              metrics.recentBookings.map((booking) => (
+              metrics.recentBookings
+                ?.filter(b => b && b.product && b.guest)
+                .map((booking) => (
                 <div
                   key={booking.id}
                   className="border border-yellow-200 rounded-lg p-4 bg-yellow-50 hover:bg-yellow-100 transition-colors"
@@ -156,28 +162,30 @@ export default function AdminDashboard() {
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h4 className="font-semibold text-green-800">
-                        {booking.guest.name}
+                        {booking.guest?.name ?? '-'}
                       </h4>
                       <p className="text-sm text-gray-600">
-                        {booking.product.name}
+                        {booking.product?.name ?? '-'}
                       </p>
                     </div>
                     <Badge className={getStatusBadge(booking.status)}>
                       {booking.status}
                     </Badge>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
+                 <div className="flex items-center justify-between text-sm">
                     <div className="text-gray-600">
-                      <span>
-                        {booking.quantity} x Rp {(booking.product?.price ?? 0).toLocaleString('id-ID')}
-                      </span>
+                      {booking.quantity ?? 0} x Rp{' '}
+                      {Number(booking.product?.price ?? 0).toLocaleString('id-ID')}
                     </div>
                     <div className="font-semibold text-green-700">
-                      Rp {(booking.totalCost ?? 0).toLocaleString('id-ID')}
+                      Rp {Number(booking.totalCost ?? 0).toLocaleString('id-ID')}
                     </div>
                   </div>
                   <div className="text-xs text-gray-500 mt-2">
-                    Tanggal: {new Date(booking.orderDate).toLocaleDateString('id-ID')}
+                    Tanggal:{' '}
+                    {booking.orderDate
+                      ? new Date(booking.orderDate).toLocaleDateString('id-ID')
+                      : '-'}
                   </div>
                 </div>
               ))

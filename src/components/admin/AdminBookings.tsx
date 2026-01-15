@@ -113,10 +113,10 @@ export default function AdminBookings() {
     message += `🌸 *Detail Produk*\n`
     message += `• Nama: ${product.name}\n`
     message += `• Tipe: ${product.catalogType}\n`
-    message += `• Harga: Rp ${product.price.toLocaleString('id-ID')}\n`
+    message += `• Harga: Rp ${(product.price ?? 0).toLocaleString('id-ID')}\n`
     message += `• Jumlah: ${booking.quantity}\n\n`
 
-    message += `💰 *Total Biaya: Rp ${booking.totalCost.toLocaleString('id-ID')}*\n\n`
+    message += `💰 *Total Biaya: Rp ${(booking.totalCost ?? 0).toLocaleString('id-ID')}*\n\n`
 
     const statusEmoji: Record<string, string> = {
       'Booking': '📝',
@@ -197,8 +197,10 @@ export default function AdminBookings() {
       ) : (
         <div className="space-y-6">
           {Object.values(groupedBookings).map(({ guest, bookings }) => {
-            const totalCost = bookings.reduce((sum, b) => sum + b.totalCost, 0)
-            
+            const totalCost = bookings.reduce(
+              (sum, b) => sum + (b.totalCost ?? 0),
+              0
+            )
             return (
               <Card key={guest.id} className="border-yellow-200">
                 <CardContent className="p-6">
@@ -271,13 +273,18 @@ export default function AdminBookings() {
                                   {booking.product.catalogType}
                                 </div>
                                 <div className="text-xs text-gray-500 mt-1">
-                                  {new Date(booking.orderDate).toLocaleDateString('id-ID')} -{' '}
-                                  {new Date(booking.pickupDate).toLocaleDateString('id-ID')}
+                                  {booking.orderDate
+                                    ? new Date(booking.orderDate).toLocaleDateString('id-ID')
+                                    : '-'}{' '}
+                                  -{' '}
+                                  {booking.pickupDate
+                                    ? new Date(booking.pickupDate).toLocaleDateString('id-ID')
+                                    : '-'}
                                 </div>
                               </div>
                             </td>
                             <td className="py-3 px-3">
-                              Rp {booking.product.price.toLocaleString('id-ID')}
+                              Rp {(booking.product?.price ?? 0).toLocaleString('id-ID')}
                             </td>
                             <td className="py-3 px-3">
                               {booking.quantity}

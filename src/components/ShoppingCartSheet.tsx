@@ -45,7 +45,7 @@ export default function ShoppingCartSheet({ onProceedToBooking }: ShoppingCartSh
               <div key={item.id} className="flex gap-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200 ml-2 mr-2">
                 {/* Product Image */}
                 <div className="w-20 h-20 rounded-lg overflow-hidden bg-gradient-to-br from-yellow-100 to-green-100 flex-shrink-0 relative">
-                  {item.image ? (
+                  {typeof item.image === 'string' && item.image !== '' ? (
                     <Image
                       src={`/uploads/${item.image}`}
                       alt={item.name}

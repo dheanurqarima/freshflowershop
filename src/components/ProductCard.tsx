@@ -19,33 +19,45 @@ interface ProductCardProps {
   name?: string
   catalogType?: string
   detail?: string
-  price?: number
-  stock?: number
+  price?: number | null
+  stock?: number | null
   status?: string
-  image?: string
+  image?: string | null
 }
+
+/** Helper agar tidak crash */
+const safeNumber = (value: any) => Number(value ?? 0)
 
 export default function ProductCard({
   id = '1',
   name = 'Rose Bouquet',
   catalogType = 'Fresh Flower',
   detail = 'Beautiful fresh rose bouquet perfect for any occasion',
-  price = 150000,
-  stock = 10,
+  price = 0,
+  stock = 0,
   status = 'Available',
-  image = ''
+  image = null,
 }: ProductCardProps) {
   const { addToCart } = useCart()
+
+  const safePrice = safeNumber(price)
+  const safeStock = safeNumber(stock)
+
+  const imageUrl = image
+    ? image.startsWith('http')
+      ? image
+      : `/uploads/${image}`
+    : null
 
   const handleAddToCart = () => {
     addToCart({
       id,
       name,
-      price,
+      price: safePrice,
       quantity: 1,
       catalogType,
-      stock,
-      image,
+      stock: safeStock,
+      image: image ?? '',
     })
   }
 
@@ -53,9 +65,9 @@ export default function ProductCard({
     <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow border-yellow-200">
       <div className="aspect-square bg-gradient-to-br from-yellow-100 to-green-100 relative">
         {/* Product Image */}
-        {image ? (
+        {imageUrl ? (
           <Image
-            src={`/uploads/${image}`}
+            src={imageUrl}
             alt={name}
             fill
             className="object-cover"
@@ -79,21 +91,25 @@ export default function ProductCard({
         <h3 className="font-semibold text-green-800 mb-1 line-clamp-1">
           {name}
         </h3>
+
         <Badge className="mb-2 bg-yellow-200 hover:bg-yellow-300 text-xs">
           {catalogType}
         </Badge>
+
         <p className="text-sm text-gray-600 mb-2 line-clamp-2">
           {detail}
         </p>
+
         <div className="flex items-center justify-between">
           <p className="text-lg font-bold text-green-700">
-            Rp {price.toLocaleString('id-ID')}
+            Rp {safePrice.toLocaleString('id-ID')}
           </p>
+
           <Badge
-            variant={stock > 0 ? "default" : "destructive"}
-            className={stock > 0 ? "bg-green-600 hover:bg-green-700" : ""}
+            variant={safeStock > 0 ? 'default' : 'destructive'}
+            className={safeStock > 0 ? 'bg-green-600 hover:bg-green-700' : ''}
           >
-            {stock > 0 ? `Stok: ${stock}` : 'Habis'}
+            {safeStock > 0 ? `Stok: ${safeStock}` : 'Habis'}
           </Badge>
         </div>
       </CardContent>
@@ -103,7 +119,7 @@ export default function ProductCard({
           size="sm"
           className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white"
           onClick={handleAddToCart}
-          disabled={stock === 0 || status !== 'Available'}
+          disabled={safeStock === 0 || status !== 'Available'}
         >
           <ShoppingCart className="h-4 w-4 mr-1" />
           Keranjang
@@ -120,15 +136,19 @@ export default function ProductCard({
               Detail
             </Button>
           </DialogTrigger>
+
           <DialogContent className="max-w-lg bg-white">
             <DialogHeader>
-              <DialogTitle className="text-green-800">{name}</DialogTitle>
+              <DialogTitle className="text-green-800">
+                {name}
+              </DialogTitle>
             </DialogHeader>
+
             <div className="space-y-4">
               <div className="aspect-square bg-gradient-to-br from-yellow-100 to-green-100 rounded-lg flex items-center justify-center overflow-hidden">
-                {image ? (
+                {imageUrl ? (
                   <Image
-                    src={`/uploads/${image}`}
+                    src={imageUrl}
                     alt={name}
                     width={400}
                     height={400}
@@ -144,13 +164,15 @@ export default function ProductCard({
                   <Badge className="bg-yellow-500 hover:bg-yellow-600">
                     {catalogType}
                   </Badge>
+
                   <Badge
-                    variant={stock > 0 ? "default" : "destructive"}
-                    className={stock > 0 ? "bg-green-600 hover:bg-green-700" : ""}
+                    variant={safeStock > 0 ? 'default' : 'destructive'}
+                    className={safeStock > 0 ? 'bg-green-600 hover:bg-green-700' : ''}
                   >
-                    {stock > 0 ? `Stok: ${stock}` : 'Habis'}
+                    {safeStock > 0 ? `Stok: ${safeStock}` : 'Habis'}
                   </Badge>
-                  <Badge variant={status === 'Available' ? "default" : "secondary"}>
+
+                  <Badge variant={status === 'Available' ? 'default' : 'secondary'}>
                     {status}
                   </Badge>
                 </div>
@@ -160,14 +182,14 @@ export default function ProductCard({
                 </p>
 
                 <div className="text-2xl font-bold text-green-700">
-                  Rp {price.toLocaleString('id-ID')}
+                  Rp {safePrice.toLocaleString('id-ID')}
                 </div>
               </div>
 
               <Button
                 className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
                 onClick={handleAddToCart}
-                disabled={stock === 0 || status !== 'Available'}
+                disabled={safeStock === 0 || status !== 'Available'}
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 Tambah ke Keranjang

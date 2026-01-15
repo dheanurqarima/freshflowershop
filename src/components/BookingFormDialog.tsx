@@ -60,7 +60,8 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
         })
 
         if (!response.ok) {
-          throw new Error('Failed to create booking')
+          const err = await response.json().catch(() => null)
+          throw new Error(err?.error || 'Failed to create booking')
         }
       }
 
@@ -109,16 +110,20 @@ export default function BookingFormDialog({ open, onOpenChange }: BookingFormDia
             <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
               <h3 className="font-semibold text-green-800 mb-2">Ringkasan Pesanan</h3>
               <div className="space-y-1 text-sm max-h-32 overflow-y-auto">
-                {cartItems.map((item) => (
+                {cartItems
+                  ?.filter(item => item && item.id)
+                  .map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name} x {item.quantity}</span>
-                    <span>Rp {(item.price * item.quantity).toLocaleString('id-ID')}</span>
+                    <span>
+                      Rp {((item?.price ?? 0) * (item?.quantity ?? 0)).toLocaleString('id-ID')}
+                    </span>
                   </div>
                 ))}
               </div>
               <div className="flex justify-between font-bold text-green-800 mt-3 pt-3 border-t border-yellow-300">
                 <span>Total</span>
-                <span>Rp {cartTotal.toLocaleString('id-ID')}</span>
+                <span>Rp {(cartTotal ?? 0).toLocaleString('id-ID')}</span>
               </div>
             </div>
 

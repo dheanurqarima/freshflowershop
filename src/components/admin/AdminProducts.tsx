@@ -399,7 +399,7 @@ function CardProduct({ product, onEdit, onDelete }: { product: Product; onEdit: 
         </div>
         <div className="flex items-center justify-between mb-3">
           <span className="font-bold text-green-700">
-            Rp {product.price.toLocaleString('id-ID')}
+            Rp {(product.price ?? 0).toLocaleString('id-ID')}
           </span>
           <span className="text-sm text-gray-600">
             Stok: {product.stock}
