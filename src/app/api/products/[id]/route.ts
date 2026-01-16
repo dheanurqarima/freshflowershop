@@ -90,3 +90,33 @@ export async function PUT(
     )
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const existing = await prisma.product.findUnique({
+      where: { id: params.id }
+    })
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: 'Product not found' },
+        { status: 404 }
+      )
+    }
+
+    await prisma.product.delete({
+      where: { id: params.id }
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Delete error:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete product' },
+      { status: 500 }
+    )
+  }
+}
