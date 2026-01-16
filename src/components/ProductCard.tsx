@@ -43,10 +43,9 @@ export default function ProductCard({
   const safePrice = safeNumber(price)
   const safeStock = safeNumber(stock)
 
-  const imageUrl = image
-    ? image.startsWith('http')
-      ? image
-      : `/uploads/${image}`
+  const imageUrl =
+  typeof image === 'string' && image.trim() !== ''
+    ? image
     : null
 
   const handleAddToCart = () => {
@@ -57,7 +56,7 @@ export default function ProductCard({
       quantity: 1,
       catalogType,
       stock: safeStock,
-      image: image ?? '',
+      image: imageUrl ?? '',
     })
   }
 

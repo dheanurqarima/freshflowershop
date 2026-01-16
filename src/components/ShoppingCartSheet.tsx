@@ -47,7 +47,7 @@ export default function ShoppingCartSheet({ onProceedToBooking }: ShoppingCartSh
                 <div className="w-20 h-20 rounded-lg overflow-hidden bg-gradient-to-br from-yellow-100 to-green-100 flex-shrink-0 relative">
                   {typeof item.image === 'string' && item.image !== '' ? (
                     <Image
-                      src={`/uploads/${item.image}`}
+                      src={item.image}
                       alt={item.name}
                       fill
                       className="object-cover"
