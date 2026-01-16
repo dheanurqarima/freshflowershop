@@ -125,7 +125,7 @@ export default function AdminProducts() {
       status: product.status
     })
     if (product.image) {
-      setImagePreview(`/uploads/${product.image}`)
+      setImagePreview(product.image)
     }
     setDialogOpen(true)
   }
@@ -376,7 +376,7 @@ function CardProduct({ product, onEdit, onDelete }: { product: Product; onEdit: 
       <div className="aspect-square bg-gradient-to-br from-yellow-100 to-green-100 flex items-center justify-center">
         {product.image ? (
           <img
-            src={`/uploads/${product.image}`}
+            src={product.image}
             alt={product.name}
             className="w-full h-full object-cover"
           />
