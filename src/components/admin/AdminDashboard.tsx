@@ -60,17 +60,17 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         {/* Total Products */}
         <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 px-3 sm:px-6">
             <CardTitle className="text-sm font-medium text-gray-600">
               Total Produk
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 py-2 sm:px-6 sm:py-4">
             <div className="flex items-center justify-between">
-              <div className="text-3xl font-bold text-green-800">
+              <div className="text-xl sm:text-3xl font-bold text-green-800">
                 {metrics.totalProducts}
               </div>
               <Flower2 className="h-8 w-8 text-yellow-500" />
@@ -80,14 +80,14 @@ export default function AdminDashboard() {
 
         {/* Available Products */}
         <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 px-3 sm:px-6">
             <CardTitle className="text-sm font-medium text-gray-600">
               Produk Tersedia
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 py-2 sm:px-6 sm:py-4">
             <div className="flex items-center justify-between">
-              <div className="text-3xl font-bold text-green-800">
+              <div className="text-xl sm:text-3xl font-bold text-green-800">
                 {metrics.availableProducts}
               </div>
               <Package className="h-8 w-8 text-green-500" />
@@ -97,14 +97,14 @@ export default function AdminDashboard() {
 
         {/* Sold Products */}
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 px-3 sm:px-6">
             <CardTitle className="text-sm font-medium text-gray-600">
               Produk Terjual
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 py-2 sm:px-6 sm:py-4">
             <div className="flex items-center justify-between">
-              <div className="text-3xl font-bold text-green-800">
+              <div className="text-xl sm:text-3xl font-bold text-green-800">
                 {metrics.soldProducts}
               </div>
               <ShoppingCart className="h-8 w-8 text-blue-500" />
@@ -114,14 +114,14 @@ export default function AdminDashboard() {
 
         {/* Monthly Revenue */}
         <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1 px-3 sm:px-6">
             <CardTitle className="text-sm font-medium text-gray-600">
               Pendapatan Bulan Ini
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 py-2 sm:px-6 sm:py-4">
             <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold text-green-800">
+              <div className="text-lg sm:text-2xl font-bold text-green-800">
                 Rp {(metrics?.monthlyRevenue ?? 0).toLocaleString("id-ID")}
               </div>
               <DollarSign className="h-8 w-8 text-purple-500" />
@@ -145,7 +145,7 @@ export default function AdminDashboard() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-3 py-2 sm:px-6 sm:py-4">
           <div className="space-y-4">
             {metrics.recentBookings.length === 0 ? (
               <p className="text-center text-gray-500 py-8">
@@ -157,9 +157,9 @@ export default function AdminDashboard() {
                 .map((booking) => (
                 <div
                   key={booking.id}
-                  className="border border-yellow-200 rounded-lg p-4 bg-yellow-50 hover:bg-yellow-100 transition-colors"
+                  className="border border-yellow-200 rounded-lg px-3 py-2 sm:p-4 bg-yellow-50 hover:bg-yellow-100 transition-colors"
                 >
-                  <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-start justify-between mb-1 sm:mb-2">
                     <div>
                       <h4 className="font-semibold text-green-800">
                         {booking.guest?.name ?? '-'}
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                       Rp {Number(booking.totalCost ?? 0).toLocaleString('id-ID')}
                     </div>
                   </div>
-                  <div className="text-xs text-gray-500 mt-2">
+                  <div className="text-xs text-gray-500 mt-1 sm:mt-2">
                     Tanggal:{' '}
                     {booking.orderDate
                       ? new Date(booking.orderDate).toLocaleDateString('id-ID')

@@ -355,7 +355,7 @@ export default function AdminProducts() {
       {loading ? (
         <div className="text-center py-8 text-gray-500">Memuat produk...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-4">
           {products.map((product) => (
             <CardProduct
               key={product.id}
@@ -384,21 +384,21 @@ function CardProduct({ product, onEdit, onDelete }: { product: Product; onEdit: 
           <div className="text-6xl">🌹</div>
         )}
       </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-green-800 mb-1">{product.name}</h3>
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+      <div className="p-3 sm:p-4">
+        <h3 className="font-semibold text-sm sm:text-base text-green-800 mb-1 line-clamp-1">{product.name}</h3>
+        <p className="text-xs sm:text-sm text-gray-600 mb-2 line-clamp-2">
           {product.detail || 'Tidak ada deskripsi'}
         </p>
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+          <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded bg-yellow-100 text-yellow-800">
             {product.catalogType}
           </span>
-          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+          <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded bg-green-100 text-green-800">
             {product.status}
           </span>
         </div>
         <div className="flex items-center justify-between mb-3">
-          <span className="font-bold text-green-700">
+          <span className="font-bold text-sm sm:text-base text-green-700">
             Rp {(product.price ?? 0).toLocaleString('id-ID')}
           </span>
           <span className="text-sm text-gray-600">
@@ -409,20 +409,20 @@ function CardProduct({ product, onEdit, onDelete }: { product: Product; onEdit: 
           <Button
             size="sm"
             variant="outline"
-            className="flex-1 border-yellow-200 hover:bg-yellow-50"
+            className="flex-1 h-8 px-2 sm:px-3 text-xs border-yellow-200 hover:bg-yellow-50"
             onClick={onEdit}
           >
-            <Pencil className="h-4 w-4 mr-1" />
-            Edit
+            <Pencil className="h-3.5 w-3.5 sm:mr-1" />
+            <span className="hidden sm:inline">Edit</span>
           </Button>
           <Button
             size="sm"
             variant="outline"
-            className="flex-1 border-red-200 hover:bg-red-50 hover:text-red-600"
+            className="flex-1 h-8 px-2 sm:px-3 text-xs border-red-200 hover:bg-red-50 hover:text-red-600"
             onClick={onDelete}
           >
-            <Trash2 className="h-4 w-4 mr-1" />
-            Hapus
+            <Trash2 className="h-3.5 w-3.5 sm:mr-1" />
+            <span className="hidden sm:inline">Hapus</span>
           </Button>
         </div>
       </div>

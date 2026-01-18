@@ -163,21 +163,21 @@ export default function Home() {
         {/* Admin Content */}
         <div className="container mx-auto px-4 py-6">
           <Tabs value={adminTab} onValueChange={setAdminTab} className="space-y-6">
-            <TabsList className="bg-white border border-yellow-200">
-              <TabsTrigger value="dashboard" className="data-[state=active]:bg-green-700 data-[state=active]:text-white">
-                <LayoutDashboard className="h-4 w-4 mr-2" />
+            <TabsList className=" w-full bg-white border border-yellow-200 flex justify-between p-1 sm:p-2">
+              <TabsTrigger value="dashboard" className="flex items-center gap-1 sm:gap-2 px-2 py-1 sm:px-4 sm:py-2 text-[10px] sm:text-sm data-[state=active]:bg-green-700 data-[state=active]:text-white">
+                <LayoutDashboard className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Dashboard
               </TabsTrigger>
-              <TabsTrigger value="products" className="data-[state=active]:bg-green-700 data-[state=active]:text-white">
-                <Package className="h-4 w-4 mr-2" />
+              <TabsTrigger value="products" className="flex items-center gap-1 sm:gap-2 px-2 py-1 sm:px-4 sm:py-2 text-[10px] sm:text-sm data-[state=active]:bg-green-700 data-[state=active]:text-white">
+                <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Produk
               </TabsTrigger>
-              <TabsTrigger value="bookings" className="data-[state=active]:bg-green-700 data-[state=active]:text-white">
-                <Calendar className="h-4 w-4 mr-2" />
+              <TabsTrigger value="bookings" className="flex items-center gap-1 sm:gap-2 px-2 py-1 sm:px-4 sm:py-2 text-[10px] sm:text-sm data-[state=active]:bg-green-700 data-[state=active]:text-white">
+                <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Booking
               </TabsTrigger>
-              <TabsTrigger value="customers" className="data-[state=active]:bg-green-700 data-[state=active]:text-white">
-                <Users className="h-4 w-4 mr-2" />
+              <TabsTrigger value="customers" className="flex items-center gap-1 sm:gap-2 px-2 py-1 sm:px-4 sm:py-2 text-[10px] sm:text-sm data-[state=active]:bg-green-700 data-[state=active]:text-white">
+                <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Pelanggan
               </TabsTrigger>
             </TabsList>
@@ -212,11 +212,12 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center gap-2">
               <Flower2 className="h-8 w-8 text-yellow-500" />
-              <div className="d-flex">
-              <h1 className="text-xl font-bold text-green-800 hidden sm:block">
-                Fresh Flower Shop
-              </h1>
-              <p className="text-xs text-green-600 d-block">Beautiful moments start here</p>
+              <div className="flex flex-col leading-tight">
+                <h1 className="hidden sm:block text-xl font-bold text-green-800">
+                  Fresh Flower Shop</h1>
+                <p className="hidden sm:block text-xs text-green-600">
+                  Beautiful moments start here
+                </p>
               </div>
             </div>
 
@@ -229,7 +230,7 @@ export default function Home() {
                   placeholder="Cari bunga..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-yellow-50 border-yellow-200 focus:border-yellow-400"
+                  className="pl-10 bg-yellow-50 border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
                 />
               </div>
             </div>
@@ -280,12 +281,10 @@ export default function Home() {
               </div>
             </div>
             <div className="relative z-10 max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                🌸 Selamat Datang di Fresh Flower Shop!
-              </h2>
-              <p className="text-lg md:text-xl opacity-90">
+              <h2 className="text-xl sm:text-3xl md:text-4xl font-bold mb-3">
+                🌸 Selamat Datang di Fresh Flower Shop!</h2>
+              <p className="text-sm sm:text-base md:text-xl opacity-90">
                 Temukan bunga terindah untuk setiap momen spesial Anda.
-                Kualitas terbaik dengan harga terjangkau!
               </p>
             </div>
           </div>
@@ -296,16 +295,17 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-2 p-1 bg-white rounded-xl shadow-sm border border-yellow-200">
             {(['All', 'Bucket Fresh Flower', 'Fresh Flower', 'Bucket Fake Flower'] as CatalogType[]).map((catalog) => (
               <Button
+                size="sm"
                 key={catalog}
                 variant={selectedCatalog === catalog ? "default" : "outline"}
                 onClick={() => setSelectedCatalog(catalog)}
-                className={
+                className={ 
                   selectedCatalog === catalog
-                    ? "bg-green-700 hover:bg-green-700 text-yellow-100"
-                    : "bg-white border-yellow-200 hover:bg-yellow-50 text-green-800"
+                    ? "text-xs sm:text-sm px-3 py-1.5 bg-green-700 hover:bg-green-700 text-yellow-100"
+                    : "text-xs sm:text-sm px-3 py-1.5 bg-white border-yellow-200 hover:bg-yellow-50 text-green-800"
                 }
               >
-                <Flower2 className="h-4 w-4 mr-2" />
+                <Flower2 className="h-3 w-3 mr-1 hidden sm:inline" />
                 {catalog}
               </Button>
             ))}

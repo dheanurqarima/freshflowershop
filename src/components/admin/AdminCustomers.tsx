@@ -183,19 +183,19 @@ export default function AdminCustomers() {
               key={`${customer.id}-${orderDate}`}
               className="border-yellow-200 hover:shadow-md transition-shadow"
             >
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-4 md:p-6">
                   {/* Customer Header */}
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-2 sm:mb-4">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-green-800 text-lg mb-1">
+                      <h3 className="font-semibold text-green-800 text-base sm:text-lg mb-1">
                         {customer.name}
                       </h3>
 
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         {customer.email}
                       </p>
 
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         {customer.phone}
                       </p>
 
@@ -234,7 +234,7 @@ export default function AdminCustomers() {
 
                   {/* Receiver Info (if delivery) */}
                   {customer.deliveryType === 'delivery' && customer.receiverName && (
-                    <div className="bg-green-50 p-3 rounded-lg mb-4">
+                    <div className="bg-green-50 p-2 sm:p-3 rounded-lg mb-2 sm:mb-4">
                       <p className="text-xs text-gray-600 mb-1">Informasi Penerima</p>
                       <p className="text-sm font-medium text-green-800">
                         {customer.receiverName}
@@ -270,7 +270,7 @@ export default function AdminCustomers() {
                   {customer.bookings.length > 0 && (
                     <div className="border-t border-yellow-200 pt-3 mb-4">
                       <p className="text-xs text-gray-600 mb-2">Produk yang dipesan:</p>
-                      <div className="space-y-1 max-h-32 overflow-y-auto">
+                      <div className="space-y-1 max-h-24 sm:max-h-32 overflow-y-auto">
                         {bookings.map((booking) => (
                           <div key={booking.id} className="text-xs flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -293,11 +293,11 @@ export default function AdminCustomers() {
 
                   {/* WhatsApp Button */}
                   <Button
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    className="w-full bg-green-600 hover:bg-green-700 text-white flex items-center justify-center gap-2"
                     onClick={() => sendWhatsApp(customer)}
                   >
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Hubungi via WhatsApp
+                    <MessageCircle className="h-4 w-4" />
+                    <span className="hidden sm:inline">Hubungi via WhatsApp</span>
                   </Button>
                 </CardContent>
               </Card>

@@ -113,10 +113,15 @@
 }
 
 @layer base {
+  html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 }

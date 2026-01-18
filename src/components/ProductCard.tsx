@@ -61,8 +61,8 @@ export default function ProductCard({
   }
 
   return (
-    <Card className="overflow-hidden shadow-md hover:shadow-lg transition-shadow border-yellow-200">
-      <div className="aspect-square bg-gradient-to-br from-yellow-100 to-green-100 relative">
+    <Card className="overflow-hidden border-yellow-200 shadow-sm hover:shadow-md transition-shadow">
+      <div className="aspect-square bg-gradient-to-br from-green-100 to-yellow-100 relative">
         {/* Product Image */}
         {imageUrl ? (
           <Image
@@ -86,42 +86,42 @@ export default function ProductCard({
         )}
       </div>
 
-      <CardContent className="p-4">
-        <h3 className="font-semibold text-green-800 mb-1 line-clamp-1">
+      <CardContent className="px-2 py-1 sm:px-4 sm:py-3">
+        <h3 className="font-semibold text-green-800 mb-1 text-sm sm:text-base line-clamp-2">
           {name}
         </h3>
 
-        <Badge className="mb-2 bg-yellow-200 hover:bg-yellow-300 text-xs">
+        <Badge className="mb-1 text-[10px] sm:text-xs bg-yellow-200 hover:bg-yellow-300">
           {catalogType}
         </Badge>
 
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+        <p className="text-xs sm:text-sm text-gray-600 mb-2 line-clamp-2">
           {detail}
         </p>
 
         <div className="flex items-center justify-between">
-          <p className="text-lg font-bold text-green-700">
+          <p className="text-sm sm:text-lg font-bold text-green-700">
             Rp {safePrice.toLocaleString('id-ID')}
           </p>
 
           <Badge
             variant={safeStock > 0 ? 'default' : 'destructive'}
-            className={safeStock > 0 ? 'bg-green-600 hover:bg-green-700' : ''}
+            className={safeStock > 0 ? 'bg-green-600 hover:bg-green-700 text-[10px] sm:text-xs' : ''}
           >
             {safeStock > 0 ? `Stok: ${safeStock}` : 'Habis'}
           </Badge>
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 gap-2">
+      <CardFooter className="px-2 py-1 sm:px-4 sm:py-3 pt-0 gap-1 sm:gap-2">
         <Button
           size="sm"
-          className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white"
+          className="flex-1 text-xs sm:text-sm px-2 sm:px-4 bg-yellow-500 hover:bg-yellow-600 text-white"
           onClick={handleAddToCart}
           disabled={safeStock === 0 || status !== 'Available'}
         >
-          <ShoppingCart className="h-4 w-4 mr-1" />
-          Keranjang
+          <ShoppingCart className="h-4 w-4 sm:mr-1" />
+          <span className="hidden sm:inline">Keranjang</span>
         </Button>
 
         <Dialog>
@@ -129,10 +129,10 @@ export default function ProductCard({
             <Button
               size="sm"
               variant="outline"
-              className="flex-1 border-green-200 hover:bg-green-50 text-green-700"
+              className="flex-1 text-xs sm:text-sm px-2 sm:px-4"
             >
-              <FileText className="h-4 w-4 mr-1" />
-              Detail
+              <FileText className="h-4 w-4 sm:mr-1" />
+              <span className="hidden sm:inline">Detail</span>
             </Button>
           </DialogTrigger>
 

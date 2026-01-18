@@ -183,7 +183,7 @@ export default function AdminBookings() {
             placeholder="Cari berdasarkan nama, email, atau produk..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border-yellow-200 focus:border-yellow-400 text-gray-400"
+            className="border-yellow-200 focus:border-yellow-400 text-black placeholder:text-gray-400"
           />
         </div>
       </div>
@@ -203,7 +203,7 @@ export default function AdminBookings() {
             )
             return (
               <Card key={guest.id} className="border-yellow-200">
-                <CardContent className="p-6">
+                <CardContent className="p-2 sm:p-4 md:p-6">
                   {/* Guest Information */}
                   <div className="bg-yellow-50 p-4 rounded-lg mb-4">
                     <h3 className="font-semibold text-green-800 text-lg mb-2">
@@ -256,7 +256,7 @@ export default function AdminBookings() {
                           <th className="text-left py-2 px-3 text-sm font-semibold text-green-800">
                             Status
                           </th>
-                          <th className="text-left py-2 px-3 text-sm font-semibold text-green-800">
+                          <th className="text-left py-2 px-2 text-sm font-semibold text-green-800">
                             Aksi
                           </th>
                         </tr>
@@ -312,15 +312,15 @@ export default function AdminBookings() {
                                 </Select>
                               </div>
                             </td>
-                            <td className="py-3 px-3">
+                            <td className="py-3 px-2 text-center sm:text-left">
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="bg-green-50 border-green-200 hover:bg-green-100"
+                                className="bg-green-50 border-green-200 hover:bg-green-100 px-2 sm:px-3 h-8"
                                 onClick={() => sendWhatsApp(booking)}
                               >
-                                <MessageCircle className="h-4 w-4 mr-1" />
-                                WhatsApp
+                                <MessageCircle className="h-4 w-4 sm:mr-1" />
+                                <span className="hidden sm:inline">WhatsApp</span>
                               </Button>
                             </td>
                           </tr>
